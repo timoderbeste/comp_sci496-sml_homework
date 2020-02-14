@@ -52,6 +52,7 @@ def parse_opt():
   parser.add_argument('--num_iters', type=int, default=210000)
   parser.add_argument('--loss', type=str, default='soft_triplet')
   parser.add_argument('--loader_num_workers', type=int, default=4)
+  parser.add_argument('--run_id', type=str, default='default')
   args = parser.parse_args()
   return args
 
@@ -283,7 +284,7 @@ def main():
   for k in opt.__dict__.keys():
     print '    ', k, ':', str(opt.__dict__[k])
 
-  logger = SummaryWriter(comment=opt.comment)
+  logger = SummaryWriter('/tmp/run_%s/' % opt.run_id, comment=opt.comment)
   print 'Log files saved to', logger.file_writer.get_logdir()
   for k in opt.__dict__.keys():
     logger.add_text(k, str(opt.__dict__[k]))
