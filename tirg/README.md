@@ -28,14 +28,14 @@ In this paper, we study the task of image retrieval, where the input query is
 specified in the form of an image plus some text that describes desired
 modifications to the input image.
 
-![Problem Overview](images/intro.png)
+![Problem Overview](../tirg-master/images/intro.png)
 
 
 We propose a new way to combine image and
 text using TIRG function for the retrieval task. We show this outperforms
 existing approaches on different datasets.
 
-![Method](images/newpipeline.png)
+![Method](../tirg-master/images/newpipeline.png)
 
 
 ## Setup
