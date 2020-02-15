@@ -19,7 +19,7 @@ import numpy as np
 import torch
 import torchvision
 import torch.nn.functional as F
-import text_model
+import tirg.text_model as text_model
 import torch_functions
 
 
