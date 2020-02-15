@@ -38,9 +38,11 @@ def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('dataset_path', type=str)
     argparser.add_argument('checkpoint_path', type=str)
+    argparser.add_argument('--batch_size', type=int, default=1)
     args = argparser.parse_args()
     dataset_path = args.dataset_path
     checkpoint_path = args.checkpoint_path
+    batch_size = args.batch_size
 
     trainset, testset = load_fashion_dataset(dataset_path)
     checkpoint = torch.load(checkpoint_path, map_location=torch.device('cpu'))
@@ -50,6 +52,8 @@ def main():
     model.load_state_dict(model_state_dict)
     print 'Successfully created and initialized the model'
     
+    print 'Start running test retrieval...'
+    test(args, model, testset)
 
 
 if __name__ == '__main__':
