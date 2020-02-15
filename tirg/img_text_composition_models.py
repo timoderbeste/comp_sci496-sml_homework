@@ -23,6 +23,9 @@ import tirg.text_model as text_model
 import tirg.torch_functions as torch_functions
 
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+
 class ConCatModule(torch.nn.Module):
 
   def __init__(self):
@@ -85,7 +88,7 @@ class ImgTextCompositionBase(torch.nn.Module):
   def compute_batch_based_classification_loss_(self, mod_img1, img2):
     x = torch.mm(mod_img1, img2.transpose(0, 1))
     labels = torch.tensor(range(x.shape[0])).long()
-    labels = torch.autograd.Variable(labels).cuda()
+    labels = torch.autograd.Variable(labels).to(device)
     return F.cross_entropy(x, labels)
 
 

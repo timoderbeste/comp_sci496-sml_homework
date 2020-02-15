@@ -19,6 +19,9 @@ import numpy as np
 import torch
 
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+
 class SimpleVocab(object):
 
   def __init__(self):
@@ -98,7 +101,7 @@ class TextLSTMModel(torch.nn.Module):
       itexts[:lengths[i], i] = torch.tensor(texts[i])
 
     # embed words
-    itexts = torch.autograd.Variable(itexts).cuda()
+    itexts = torch.autograd.Variable(itexts).to(device)
     etexts = self.embedding_layer(itexts)
 
     # lstm
@@ -118,6 +121,6 @@ class TextLSTMModel(torch.nn.Module):
     batch_size = etexts.shape[1]
     first_hidden = (torch.zeros(1, batch_size, self.lstm_hidden_dim),
                     torch.zeros(1, batch_size, self.lstm_hidden_dim))
-    first_hidden = (first_hidden[0].cuda(), first_hidden[1].cuda())
+    first_hidden = (first_hidden[0].to(device), first_hidden[1].to(device))
     lstm_output, last_hidden = self.lstm(etexts, first_hidden)
     return lstm_output, last_hidden
