@@ -1,4 +1,5 @@
 import argparse
+import json
 
 import torch
 import torchvision
@@ -55,7 +56,14 @@ def main():
     print 'Successfully created and initialized the model'
     
     print 'Start running test retrieval...'
-    test(args, model, testset)
+    test_result = test(args, model, testset)
+    
+    print test_result
+    try:
+        with open('/tmp/tirg_test_results.json', 'w+') as fp:
+            json.dump(test_result, fp)
+    except e:
+        print e
 
 
 if __name__ == '__main__':
