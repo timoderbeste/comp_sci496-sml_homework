@@ -43,7 +43,7 @@ def main():
     checkpoint_path = args.checkpoint_path
 
     trainset, testset = load_fashion_dataset(dataset_path)
-    checkpoint = torch.load(checkpoint_path)
+    checkpoint = torch.load(checkpoint_path, map_location=torch.device('cpu'))
     model_state_dict = checkpoint['model_state_dict']
     
     model = TIRG([t.decode('utf-8') for t in trainset.get_all_texts()], 512)
