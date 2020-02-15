@@ -1,6 +1,7 @@
 import argparse
 
 import torch
+import torchvision
 
 from tirg.datasets import Fashion200k
 from tirg.img_text_composition_models import TIRG
