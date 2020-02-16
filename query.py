@@ -11,6 +11,10 @@ from tirg.datasets import Fashion200k
 from tirg.img_text_composition_models import TIRG
 from utils import load_fashion_dataset
 
+
+device = 'cpu'
+
+
 def query(mod, img_id, img, model, all_imgs):
     mods = [mod]
     imgs = [img]
