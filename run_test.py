@@ -2,38 +2,11 @@ import argparse
 import json
 
 import torch
-import torchvision
 
-from tirg.datasets import Fashion200k
 from tirg.img_text_composition_models import TIRG
 from tirg.test_retrieval import test
+from utils import load_fashion_dataset
 
-
-def load_fashion_dataset(dataset_path):
-    trainset = Fashion200k(
-        path=dataset_path,
-        split='train',
-        transform=torchvision.transforms.Compose([
-            torchvision.transforms.Resize(224),
-            torchvision.transforms.CenterCrop(224),
-            torchvision.transforms.ToTensor(),
-            torchvision.transforms.Normalize([0.485, 0.456, 0.406],
-                                             [0.229, 0.224, 0.225])
-        ]))
-    testset = Fashion200k(
-        path=dataset_path,
-        split='test',
-        transform=torchvision.transforms.Compose([
-            torchvision.transforms.Resize(224),
-            torchvision.transforms.CenterCrop(224),
-            torchvision.transforms.ToTensor(),
-            torchvision.transforms.Normalize([0.485, 0.456, 0.406],
-                                             [0.229, 0.224, 0.225])
-        ]))
-
-    print 'trainset size:', len(trainset)
-    print 'testset size:', len(testset)
-    return trainset, testset
 
 def main():
     argparser = argparse.ArgumentParser()
