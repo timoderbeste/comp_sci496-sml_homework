@@ -66,7 +66,7 @@ def main():
     fp.close()
     
     while True:
-        line = input()
+        line = str(input())
         if line == 'stop':
             break
         
