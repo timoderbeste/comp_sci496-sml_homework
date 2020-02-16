@@ -58,6 +58,7 @@ def main():
 
     checkpoint_path = os.path.join(model_path, 'checkpoint_fashion200k.pth')
     model = initialize_model(checkpoint_path, trainset)
+    model.eval()
     
     all_imgs_path = os.path.join(model_path, 'all_imgs_normalized.pkl')
     fp = open(all_imgs_path, 'rb')
