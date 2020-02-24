@@ -12,9 +12,7 @@ app = flask.Flask(__name__, static_folder='/Users/timowang/Entwickler/')
 
 @app.route('/test_get_image', methods=['GET'])
 def test_get_image():
-    print testset
     image_path = testset.img_path + testset.imgs[14027]['file_path']
-    print image_path
     return send_file(image_path)
 
 
