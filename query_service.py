@@ -10,15 +10,23 @@ from query import prep_data_model, query
 app = flask.Flask(__name__, static_folder='/Users/timowang/Entwickler/')
 
 
-@app.route('/test_get_image', methods=['GET'])
-def test_get_image():
-    image_path = testset.img_path + testset.imgs[14027]['file_path']
+@app.route('/get_image', methods=['GET', 'POST'])
+def get_image():
+    params = flask.request.json
+    if not params:
+        params = flask.request.args
+    
+    if not params:
+        return Response("{'error': 'Missing either mod or img_id'}",
+                        status=400, mimetype='application/json')
+    
+    img_id = params.get('img_id')
+    image_path = testset.img_path + testset.imgs[img_id]['file_path']
     return send_file(image_path)
 
 
 @app.route('/query_img_ids', methods=['GET', 'POST'])
 def query_img_ids():
-    data = {'success': False}
     params = flask.request.json
     if not params:
         params = flask.request.args
