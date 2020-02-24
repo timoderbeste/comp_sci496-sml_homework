@@ -16,7 +16,7 @@ def test_get_image():
     return send_file(image_path)
 
 
-@app.route('/query', methods=['GET'])
+@app.route('/query', methods=['GET', 'POST'])
 def query():
     data = {'success': False}
     params = flask.request.json
