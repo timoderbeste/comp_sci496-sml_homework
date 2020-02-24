@@ -31,7 +31,11 @@ def query():
     
     mod = params.get('mod')
     img_id = params.get('img_id')
+    print mod
+    print img_id
     img = testset.get_img(img_id)
+    print model
+    print all_imgs
     nn_result = query(mod, img_id, img, model, all_imgs)
     print nn_result
     
