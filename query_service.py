@@ -16,8 +16,8 @@ def test_get_image():
     return send_file(image_path)
 
 
-@app.route('/query', methods=['GET', 'POST'])
-def query():
+@app.route('/query_img_ids', methods=['GET', 'POST'])
+def query_img_ids():
     data = {'success': False}
     params = flask.request.json
     if not params:
@@ -31,14 +31,9 @@ def query():
     
     mod = params.get('mod')
     img_id = params.get('img_id')
-    print mod
-    print img_id
     img = testset.get_img(img_id)
-    print model
-    print all_imgs
     nn_result = query(mod, img_id, img, model, all_imgs)
     print nn_result
-    
     return Response("{'img_ids': %s}" % str(nn_result),
                     status=200, mimetype='application/json')
 
