@@ -12,7 +12,7 @@ from tirg.img_text_composition_models import TIRG
 from utils import load_fashion_dataset
 
 
-device = 'cuda' if torch.cuda.is_avaialble() else 'cpu'
+device = 'cpu'
 
 
 def query(mod, img_id, img, model, all_imgs):
