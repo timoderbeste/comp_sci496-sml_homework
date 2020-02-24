@@ -12,7 +12,7 @@ from tirg.img_text_composition_models import TIRG
 from utils import load_fashion_dataset
 
 
-device = 'cpu'
+device = 'cuda' if torch.cuda.is_avaialble() else 'cpu'
 
 
 def query(mod, img_id, img, model, all_imgs):
@@ -40,6 +40,23 @@ def initialize_model(checkpoint_path, trainset):
     return model
 
 
+def prep_data_model(dataset_path, model_path):
+    trainset, testset = load_fashion_dataset(dataset_path)
+    print 'Testset loaded.'
+    checkpoint_path = os.path.join(model_path, 'checkpoint_fashion200k.pth')
+    model = initialize_model(checkpoint_path, trainset)
+    model.eval()
+    all_imgs_path = os.path.join(model_path, 'all_imgs_normalized.pkl')
+    fp = open(all_imgs_path, 'rb')
+    all_imgs = pickle.load(fp)
+    fp.close()
+    all_captions_path = os.path.join(model_path, 'all_captions.pkl')
+    fp = open(all_captions_path, 'rb')
+    all_captions = pickle.load(fp)
+    fp.close()
+    return all_imgs, model, testset
+
+
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('dataset_path', type=str)
@@ -53,23 +70,8 @@ def main():
     dataset = args.dataset
     batch_size = args.batch_size
 
-    trainset, testset = load_fashion_dataset(dataset_path)
-    print 'Testset loaded.'
+    all_imgs, model, testset = prep_data_model(dataset_path, model_path)
 
-    checkpoint_path = os.path.join(model_path, 'checkpoint_fashion200k.pth')
-    model = initialize_model(checkpoint_path, trainset)
-    model.eval()
-    
-    all_imgs_path = os.path.join(model_path, 'all_imgs_normalized.pkl')
-    fp = open(all_imgs_path, 'rb')
-    all_imgs = pickle.load(fp)
-    fp.close()
-
-    all_captions_path = os.path.join(model_path, 'all_captions.pkl')
-    fp = open(all_captions_path, 'rb')
-    all_captions = pickle.load(fp)
-    fp.close()
-    
     while True:
         line = raw_input()
         if line == 'stop':
@@ -80,7 +82,7 @@ def main():
         img = testset.get_img(img_id)
         nn_result = query(mod, img_id, img, model, all_imgs)
         print nn_result
-    
+
 
 if __name__ == '__main__':
     main()
