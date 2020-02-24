@@ -27,6 +27,8 @@ def query():
         return Response("{'error': 'Missing either mod or img_id'}",
                         status=400, mimetype='application/json')
     
+    print params
+    
     mod = params.get('mod')
     img_id = params.get('img_id')
     img = testset.get_img(img_id)
