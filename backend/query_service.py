@@ -3,7 +3,8 @@ import os
 from io import BytesIO
 
 import flask
-from flask import Response, send_file
+from flask import Response, send_file, jsonify
+# from flask_cors import CORS
 from PIL import Image
 
 from config import dataset_path, model_path, dataset, batch_size, all_imgs, model, testset
@@ -11,6 +12,7 @@ from query import prep_data_model, query
 
 
 app = flask.Flask(__name__, static_folder='/Users/timowang/Entwickler/')
+# CORS(app, resources={r'*': {'origins': '*'}})
 
 
 @app.route('/image', methods=['GET', 'POST'])
@@ -45,8 +47,10 @@ def get_img_ids_with_id():
     img = testset.get_img(img_id)
     nn_result = query(mod, all_imgs, img, model, img_id)
     print nn_result
-    return Response("{'img_ids': %s}" % str(nn_result),
-                    status=200, mimetype='application/json')
+    response_data = {
+        'img_ids': list(nn_result)
+    }
+    return jsonify(response_data)
 
 
 @app.route('/img_ids_with_img', methods=['GET', 'POST'])
@@ -61,14 +65,22 @@ def get_img_ids_with_img():
 
     mod = params.get('mod')
     img_base64 = params.get('img_base64')
-    img = Image.open(BytesIO(base64.b64decode(img_base64)))
+    img_base64 = img_base64[img_base64.find('base64') + 7:]
+    print mod
+    print img_base64
+    try:
+        img = Image.open(BytesIO(base64.b64decode(img_base64)))
+    except Exception as e:
+        print e
     img.convert('RGB')
     img = testset.transform(img)
     
     nn_result = query(mod, all_imgs, img, model, None)
     print nn_result
-    return Response("{'img_ids': %s}" % str(nn_result),
-                    status=200, mimetype='application/json')
+    response_data = {
+        'img_ids': list(nn_result)
+    }
+    return jsonify(response_data)
 
 
 if __name__ == '__main__':
