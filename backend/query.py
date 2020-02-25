@@ -15,18 +15,23 @@ from utils import load_fashion_dataset
 device = 'cpu'
 
 
-def query(mod, img_id, img, model, all_imgs):
+def query(mod, all_imgs, img, model, img_id):
     mods = [mod]
     imgs = [img]
+    print img
     if 'torch' not in str(type(imgs[0])):
         imgs = [torch.from_numpy(d).float() for d in imgs]
     imgs = torch.stack(imgs).float()
     imgs = torch.autograd.Variable(imgs).to(device)
     query_index = model.compose_img_text(imgs, mods).data.cpu().numpy()
-    print "Composing img and text..."
     query_index /= np.linalg.norm(query_index)
     similarities = query_index.dot(all_imgs.T)
-    similarities[0, img_id] = -10e10
+    if img_id is not None:
+        similarities[0, img_id] = -10e10
+        print 'Setting similarities'
+        print similarities
+    else:
+        print similarities
     nn_result = np.argsort(-similarities[0, :])[:20]
     return nn_result
 
@@ -80,7 +85,7 @@ def main():
         mod, img_id = line.split('|')
         img_id = int(img_id)
         img = testset.get_img(img_id)
-        nn_result = query(mod, img_id, img, model, all_imgs)
+        nn_result = query(mod, all_imgs, img, model, img_id)
         print nn_result
 
 
