@@ -3,7 +3,6 @@ import 'rbx/index.css';
 import {Container, Button, Title, File, Input, Image, List} from 'rbx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUpload} from '@fortawesome/free-solid-svg-icons';
-import imageToBase64 from 'image-to-base64';
 
 
 const get_image_idxes_url = '/img_ids_with_img';
@@ -42,10 +41,11 @@ const App = () => {
     setModificationText(event.target.value);
   }
 
-  const getImagesWithIdxes = async () => {
-    const images = retrievedIdxes.map(retrievedIdx => {
+  const getImagesWithIdxes = async (imageIdxes) => {
+    const imageBase64s = [];
+    for (let i = 0; i < imageIdxes.length; i++) {
       const queryData = {
-        'img_id': retrievedIdx
+        'img_id': imageIdxes[i],
       };
       const response = await fetch(get_image_with_idx_url, {
         method: 'POST',
@@ -53,15 +53,17 @@ const App = () => {
         credentials: 'include',
         cache: 'no-cache',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(queryData)
       });
       const data = await response.json();
-      console.log(data);
-    })
+      imageBase64s.push(data['img_base64']);
+    }
 
-  }
+    setRetrievedImages(imageBase64s);
+  };
 
   const submitQuery = (event) => {
     console.log('Submitting Query');
@@ -80,16 +82,17 @@ const App = () => {
         credentials: 'include',
         cache: 'no-cache',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(queryData)
       }).then((response) => {
         if (response.ok) {
           response.json().then(data => {
             console.log(data);
+            const imageIdxes = data['img_ids'];
             setRetrievedIdxes(data['img_ids']);
-
-
+            getImagesWithIdxes(imageIdxes);
           });
         }
       }).catch((error) => {
@@ -120,7 +123,7 @@ const App = () => {
 
       <Title size={3}>Retrieved Images</Title>
       <List>
-        {retrievedIdxes.map(retrievedIdx => <List.Item>{retrievedIdx}</List.Item>)}
+        {retrievedImages.map(retrievedImage => <List.Item><Image src={`data:image/png;base64,${retrievedImage}`}/></List.Item>)}
       </List>
     </Container>
   );

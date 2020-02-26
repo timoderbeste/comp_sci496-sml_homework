@@ -27,7 +27,16 @@ def get_image():
     
     img_id = params.get('img_id')
     image_path = testset.img_path + testset.imgs[img_id]['file_path']
-    return send_file(image_path)
+    print image_path
+    fp = open(image_path, 'rb')
+    img_base64 = base64.b64encode(fp.read())
+    fp.close()
+    print img_base64
+    response_data = {
+        'img_base64': img_base64
+    }
+    # return send_file(image_path)
+    return jsonify(response_data)
 
 
 @app.route('/img_ids_with_id', methods=['GET', 'POST'])
