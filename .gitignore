@@ -6,7 +6,6 @@
 **/__pycache__
 **/log
 **/results
-**/*.txt
 **/*~
 **/*.pyc
 **/*.log
