@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import 'rbx/index.css';
-import {Container, Button, Title, File, Input, Image, List} from 'rbx';
+import {Container, Button, Title, File, Input, Image, List, Column} from 'rbx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUpload} from '@fortawesome/free-solid-svg-icons';
 
@@ -116,15 +116,15 @@ const App = () => {
           </File.CTA>
         </File.Label>
       </File>
-      <Image src={uploadedImageURL}/>
+      <Image src={uploadedImageURL}  width='30%'/>
       <Input type='text' placeholder='Write down your desired modification' onChange={modChangedHandler} />
       <br/>
       <Button onClick={submitQuery}>Compile and Retrieve</Button>
 
       <Title size={3}>Retrieved Images</Title>
-      <List>
-        {retrievedImages.map(retrievedImage => <List.Item><Image src={`data:image/png;base64,${retrievedImage}`}/></List.Item>)}
-      </List>
+      <Column.Group multiline>
+        {retrievedImages.map(retrievedImage => <Column size='one-third'><Image src={`data:image/png;base64,${retrievedImage}`} width='30%'/></Column>)}
+      </Column.Group>
     </Container>
   );
 };

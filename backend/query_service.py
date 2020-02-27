@@ -15,6 +15,16 @@ app = flask.Flask(__name__, static_folder='/Users/timowang/Entwickler/')
 # CORS(app, resources={r'*': {'origins': '*'}})
 
 
+def process_mod(mod):
+    mod = mod.lower()
+    
+    mod = mod.replace('black', 'WHITE')
+    mod = mod.replace('white', 'black')
+    mod = mod.replace('WHITE', 'white')
+    
+    return mod
+
+
 @app.route('/image', methods=['GET', 'POST'])
 def get_image():
     params = flask.request.json
@@ -52,6 +62,7 @@ def get_img_ids_with_id():
     print params
     
     mod = params.get('mod')
+    mod = process_mod(mod)
     img_id = params.get('img_id')
     img = testset.get_img(img_id)
     nn_result = query(mod, all_imgs, img, model, img_id)
@@ -73,6 +84,7 @@ def get_img_ids_with_img():
                         status=400, mimetype='application/json')
 
     mod = params.get('mod')
+    mod = process_mod(mod)
     img_base64 = params.get('img_base64')
     img_base64 = img_base64[img_base64.find('base64') + 7:]
     print mod
