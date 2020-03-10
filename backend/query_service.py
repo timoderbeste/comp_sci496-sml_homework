@@ -93,7 +93,7 @@ def get_img_ids_with_img():
         img = Image.open(BytesIO(base64.b64decode(img_base64)))
     except Exception as e:
         print e
-    img.convert('RGB')
+    img = img.convert('RGB')
     img = testset.transform(img)
     
     nn_result = query(mod, all_imgs, img, model, None)
