@@ -106,6 +106,8 @@ Currently, the `Fashion200K` dataset only has female clothes. However, it is als
 
 ### Dataset Construction
 
+<u>If you only want to train a model using the standard datasets, you could skip this step.</u> 
+
 #### 1. Implement a derived dataset class
 
 The [tirg](https://github.com/google/tirg) project is implemented with extension of dataset kept in mind. Particularly, the abstract class `BaseDataset` defined in `datasets.py`, which can be found [here](https://github.com/google/tirg/blob/4d9fb23511e34bc180cb7551e4414eb2f938fc84/datasets.py#L28), specifies a set of methods that must be implemented by its derived class, such as `Fashion200k` class.
