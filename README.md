@@ -8,8 +8,6 @@ Similar to searching information in the form of text, the task of image retrieva
 
 ## Input/Output
 
-![io](images/io.png)
-
 **Input**
 
 - An image
@@ -18,6 +16,8 @@ Similar to searching information in the form of text, the task of image retrieva
 **Output**
 
 - A set of retrieved images
+
+![io](images/io.png)
 
 ## Core Model
 
