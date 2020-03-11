@@ -132,7 +132,7 @@ You will also likely need to modify `__init__` function so that you could polula
 
 After you implemented a dataset class dervied from `BaseDataset`, you need to make sure it can be used in `main.py`. 
 
-The [`load_dataset`](https://github.com/google/tirg/blob/4d9fb23511e34bc180cb7551e4414eb2f938fc84/main.py#L59) function loads the dataset specified as input argument of `main.py`, `dataset` and `dataset_path`. It is done in an `if-else` fashion. Simply follow the format and add another `elif` statement for your dataset, load the train and test set with correct transform functions and you are all set. 
+The [`load_dataset`](https://github.com/google/tirg/blob/4d9fb23511e34bc180cb7551e4414eb2f938fc84/main.py#L59) function loads the dataset specified by input arguments of `main.py`, `dataset` and `dataset_path`. It is done in an `if-else` fashion. Simply follow the format and add another `elif` statement for your dataset, load the train and test set with correct transform functions and you are all set. 
 
 ### Training and Evaluation
 
